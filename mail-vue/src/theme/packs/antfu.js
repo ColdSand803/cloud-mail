@@ -10,6 +10,7 @@
 // 中性灰：白底偏深、黑底偏浅，同一个值天然成立
 const HAIRLINE = 'rgba(136, 136, 136, 0.27)'
 const FILL_HOVER = 'rgba(136, 136, 136, 0.07)'
+const FILL_ACTIVE = 'rgba(136, 136, 136, 0.15)'
 
 const primary = {
     '--el-color-primary': '#3b82f6',
@@ -31,6 +32,8 @@ const shared = {
     '--el-border-color-light': HAIRLINE,
     '--el-border-color-lighter': HAIRLINE,
     '--email-hover-background': FILL_HOVER,
+    // 右键选中态要能和 hover 区分，用重一档的中性灰
+    '--email-right-click-background': FILL_ACTIVE,
     '--aside-item-hover': FILL_HOVER,
     '--header-actions-border': `inset 0 -1px 0 0 ${HAIRLINE}`,
     // 侧栏不再是深色块，用右边框代替投影
