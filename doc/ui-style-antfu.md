@@ -309,12 +309,36 @@ theme/
 | `<mode>.meta` | `theme-color` meta 值，分 desktop / mobile |
 | `<mode>.vars` | CSS 变量表，主体 |
 | `<mode>.editor` | tinymce 在 iframe 里拿不到外层变量，显式给 |
-| `<mode>.chart` | echarts 是 canvas，同样吃不到 CSS 变量 |
+| `<mode>.chart` | echarts 是 canvas，同样吃不到 CSS 变量。除了文字/轴线色，还含 `series`（分类系列色数组）和 `accent`（单系列图用色） |
 
 变量以 inline style 写在 `documentElement` 上，优先级高于 element-plus 的
 `dark/css-vars.css`，所以主题包能盖掉 EP 暗色默认值而不需要满地 `!important`。
 切换时先按「所有包声明过的变量名并集」清场，再写入新值，避免上一个包设过、
 新包没声明的变量残留。
+
+**项目自定义变量（非 `--el-` 前缀）必须所有包都声明**，否则切过去就成空值。
+`--el-` 前缀的可以只有一个包声明：另一个包不声明时会被清除，回落到
+element-plus 自带的明暗默认值 —— 「经典蓝」包正是这么用的。
+
+### 极简的主色是中性灰，不是蓝
+
+极简包的主色是严格零饱和的等值灰（R=G=B），色板在 `antfu.js` 的 `GRAY` 常量里。
+选中性而不是蓝色，是因为极简的表面全 Neutral，任何饱和色都会成为页面上
+唯一的彩色，面积一大就难看。
+
+暗色主色必须提亮（`#d4d4d4`）而不能压暗。原因：`--el-color-primary` 同时当
+按钮底色和前景色用（分析页图标、light 版 tag、plain 按钮，都是 primary 色压
+在 `primary-light-9` 底上）。若取暗灰，作前景时即使纯黑底也只有 2.7:1，
+数学上过不了 AA。
+
+代价是 primary 实底上的白字会看不见。`antfu.css` 里有一组限定选择器，
+只在「底色确实是 primary」的组件上把 `--el-color-white` 改成 `#050505`，
+作用域覆盖 button/checkbox/radio/pagination/alert/tag，不碰
+danger/success/warning，也不碰 switch 的白色滑块（switch 开启态底色用
+`--el-switch-on-color` 单独压暗到 `#525252`）。
+
+浅色次要文字取 `#737373` 而不是参照源的 `#888`：后者在白底上只有 3.54:1，
+前者 4.74:1，过 AA。
 
 ### 加一个主题包
 
@@ -339,11 +363,25 @@ header 的日月按钮只切 `dark`，设置页的选择器只切 `themeId`，�
 
 ### 遗留的硬编码
 
-这些地方的颜色还写死在组件里，不受主题包控制，后续要接就照 aside 的做法提成变量：
+这些原本写死的颜色已经提成主题包变量：
 
-- `views/login/index.vue` 的装饰色块与 `box-shadow: 0 8px 5px rgba(0,0,0,.1)`
-- `views/reg-key/index.vue:540` 的 `rgba(100,121,143,.12)` 内阴影
-- 邮件列表的状态图标色（`#3CB2FF` / `#F56C6C` / `#51C76B` / `#FBBD08` 等）
+| 位置 | 原值 | 现在 |
+|---|---|---|
+| 登录页天空/云 | `linear-gradient(#2980b9, #6dd5fa, #fff)` 等 | `--login-sky` / `--login-cloud` / `--login-cloud-solid` / `--login-cloud-shadow` |
+| header 写信按钮 | `linear-gradient(135deg, #1890ff, #3a80dd)` | `--writer-background` / `--writer-text-color` |
+| 注册码页 header 内阴影 | `rgba(100,121,143,.12)` | `--header-actions-border`（其余五处早就在用） |
+| 分析页图表系列色 | `['#3CB2FF', '#13DEB9', …]` | `chart.series` / `chart.accent` |
+| 首屏加载进度条 | `#409EFF` | `var(--el-color-primary, #8c8c8c)`，轨道用中性灰 |
+| 设置页改名链接、GitHub/版本图标 | `#4dabff` / `#1890ff` | `var(--el-color-primary)` |
+
+登录页那片天空原本还有个 bug：切暗色它不跟着变，永远是亮蓝。接入主题包时顺带补上了暗色段。
+
+剩下这些是**语义色**，故意不接入主题包：它们靠色相传达信息
+（成功/失败/警告），去饱和会损失可读性。element-plus 自己的
+success/warning/danger 也是彩色的，这是一致的：
+
+- 邮件列表的状态图标色（`#51C76B` 已读/已发、`#F56C6C` 退信、`#FBBD08` 延迟）
+- 登录页 / 账号页的机器人校验失败提示（`#F56C6C`）
 
 ## 九、关键文件索引
 

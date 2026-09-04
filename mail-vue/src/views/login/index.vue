@@ -145,7 +145,7 @@
       </div>
     </el-dialog>
     <a v-show="settingStore.settings.projectLink" class="github" href="https://github.com/maillab/cloud-mail">
-      <Icon icon="mingcute:github-line" color="#1890ff" width="20" height="20" />
+      <Icon icon="mingcute:github-line" color="var(--el-color-primary)" width="20" height="20" />
     </a>
   </div>
 </template>
@@ -796,7 +796,7 @@ function submitRegister() {
 
 
 #login-box {
-  background: linear-gradient(to bottom, #2980b9, #6dd5fa, #fff);
+  background: var(--login-sky);
   font: 100% Arial, sans-serif;
   height: 100%;
   margin: 0;
@@ -848,9 +848,9 @@ function submitRegister() {
 }
 
 .cloud {
-  background: linear-gradient(to bottom, #fff 5%, #f1f1f1 100%);
+  background: var(--login-cloud);
   border-radius: 100px;
-  box-shadow: 0 8px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--login-cloud-shadow);
   height: 120px;
   width: 350px;
   position: relative;
@@ -860,7 +860,7 @@ function submitRegister() {
 .cloud:before {
   content: "";
   position: absolute;
-  background: #fff;
+  background: var(--login-cloud-solid);
   z-index: -1;
 }
 

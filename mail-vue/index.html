@@ -94,7 +94,8 @@
     height: 4px;
     overflow: hidden;
     border-radius: 999px;
-    background: rgba(64, 158, 255, 0.18);
+    /* 轨道用中性灰，明暗都能看；进度条跟主色走，没缓存时同样退到中性灰 */
+    background: rgba(136, 136, 136, 0.18);
   }
 
   .loading-progress::before {
@@ -105,7 +106,7 @@
     width: 100%;
     height: 100%;
     border-radius: inherit;
-    background: #409EFF;
+    background: var(--el-color-primary, #8c8c8c);
     transform: scaleX(0);
     transform-origin: left center;
     animation: loading-progress-grow 2.4s linear forwards;
@@ -118,7 +119,7 @@
     width: 24px;
     height: 100%;
     border-radius: inherit;
-    background: rgba(64, 158, 255, 0.45);
+    background: rgba(136, 136, 136, 0.45);
     filter: blur(4px);
     transform: translateX(-24px);
     animation: loading-progress-peg 2.4s linear forwards;

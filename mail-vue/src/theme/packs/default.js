@@ -54,6 +54,14 @@ export default {
             '--aside-item-active': 'rgba(255, 255, 255, 0.08)',
             '--aside-title-background': 'linear-gradient(135deg, #1890ff, #3a80dd)',
             '--aside-title-color': '#ffffff',
+            // 登录页天空与云，原本写死在 login/index.vue 里，值照搬
+            '--login-sky': 'linear-gradient(to bottom, #2980b9, #6dd5fa, #fff)',
+            '--login-cloud': 'linear-gradient(to bottom, #fff 5%, #f1f1f1 100%)',
+            '--login-cloud-solid': '#fff',
+            '--login-cloud-shadow': '0 8px 5px rgba(0, 0, 0, 0.1)',
+            // 写信按钮的蓝色渐变球，原本写死在 header 里，值照搬
+            '--writer-background': 'linear-gradient(135deg, #1890ff, #3a80dd)',
+            '--writer-text-color': '#ffffff',
         },
         // tinymce 在 iframe 里，拿不到外层变量，只能显式传
         editor: {
@@ -73,6 +81,9 @@ export default {
             splitLineColor: '#D4D7DE',
             gaugeSplitLine: '#606266',
             containerBackground: '#E6EBF8',
+            // 分析页原本写死在组件里的配色，搬到这里，明暗共用
+            series: ['#3CB2FF', '#13DEB9', '#FBBF24', '#FF7F50', '#BAE6FD', '#C084FC'],
+            accent: '#3CB2FF',
         },
     },
 
@@ -110,6 +121,13 @@ export default {
             '--aside-item-active': 'rgba(255, 255, 255, 0.08)',
             '--aside-title-background': 'linear-gradient(135deg, #1890ff, #3a80dd)',
             '--aside-title-color': '#ffffff',
+            // 与浅色同值：改造前登录页背景本来就不随明暗变，保持原行为
+            '--login-sky': 'linear-gradient(to bottom, #2980b9, #6dd5fa, #fff)',
+            '--login-cloud': 'linear-gradient(to bottom, #fff 5%, #f1f1f1 100%)',
+            '--login-cloud-solid': '#fff',
+            '--login-cloud-shadow': '0 8px 5px rgba(0, 0, 0, 0.1)',
+            '--writer-background': 'linear-gradient(135deg, #1890ff, #3a80dd)',
+            '--writer-text-color': '#ffffff',
         },
         editor: {
             skin: 'oxide-dark',
@@ -127,6 +145,8 @@ export default {
             splitLineColor: '#58585B',
             gaugeSplitLine: '#CFD3DC',
             containerBackground: '#6C6E72',
+            series: ['#3CB2FF', '#13DEB9', '#FBBF24', '#FF7F50', '#BAE6FD', '#C084FC'],
+            accent: '#3CB2FF',
         },
     },
 }

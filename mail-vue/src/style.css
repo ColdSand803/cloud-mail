@@ -116,7 +116,25 @@ button, input, select, textarea {
  * 保持一致，否则首屏会闪一下别的配色。换默认主题时这里要同步改。
  */
 :root {
-    --el-color-primary: #3b82f6;
+    --el-color-primary: #171717;
+    /* 主色阶梯也要带上：EP 自带的默认阶梯是偏蓝的，
+       缺了它们首屏会闪一下淡蓝底的 tag 和 plain 按钮 */
+    --el-color-primary-dark-2: #000000;
+    --el-color-primary-light-3: #404040;
+    --el-color-primary-light-5: #737373;
+    --el-color-primary-light-7: #a3a3a3;
+    --el-color-primary-light-9: #f5f5f5;
+    /* 这几个 EP 自己有浅色默认值，但默认值跟本主题差得明显
+       （页底 #f2f3f5 的灰、边框 #dcdfe6 的实线），所以也要兜 */
+    --el-bg-color: #ffffff;
+    --el-bg-color-page: #ffffff;
+    --el-bg-color-overlay: #ffffff;
+    --el-fill-color-blank: #ffffff;
+    --el-text-color-primary: #404040;
+    --el-border-color: rgba(136, 136, 136, 0.27);
+    --el-border-color-light: rgba(136, 136, 136, 0.27);
+    --el-border-color-lighter: rgba(136, 136, 136, 0.27);
+    --el-box-shadow-light: 0 6px 30px rgba(0, 0, 0, 0.1);
     --extra-light-fill: #ffffff;
     --light-ill: rgba(136, 136, 136, 0.07);
     --light-border: rgba(136, 136, 136, 0.27);
@@ -125,32 +143,40 @@ button, input, select, textarea {
     --loadding-background: rgba(255, 255, 255, 0.8);
     --dark-border: rgba(136, 136, 136, 0.27);
     --base-fill: rgba(136, 136, 136, 0.07);
-    --regular-text-color: #555555;
+    --regular-text-color: #525252;
     --light-border-color: rgba(136, 136, 136, 0.27);
     --aside-right-border: inset -1px 0 0 0 rgba(136, 136, 136, 0.27);
-    --aside-text-color: #555555;
-    --aside-active-text-color: #3b82f6;
+    --aside-text-color: #525252;
+    --aside-active-text-color: #171717;
     --aside-item-hover: rgba(136, 136, 136, 0.07);
-    --aside-item-active: rgba(59, 130, 246, 0.1);
+    --aside-item-active: rgba(136, 136, 136, 0.15);
     --aside-title-background: transparent;
-    --aside-title-color: #374151;
+    --aside-title-color: #404040;
     --choose-account-background: rgba(136, 136, 136, 0.07);
     --el-text-color-regular: var(--el-text-color-primary);
-    --email-scroll-content-color: rgba(85, 85, 85, 0.55);
+    --email-scroll-content-color: rgba(82, 82, 82, 0.55);
     --email-hover-background: rgba(136, 136, 136, 0.07);
     --email-right-click-background: rgba(136, 136, 136, 0.15);
     --login-border: 1px solid rgba(136, 136, 136, 0.27);
-    --form-desc-color: #888888;
-    --login-switch-color: #3b82f6;
-    --scrollbar-track-color: #bbbbbb;
+    --login-sky: linear-gradient(to bottom, #e5e5e5, #f5f5f5, #ffffff);
+    --login-cloud: linear-gradient(to bottom, #ffffff 5%, #f5f5f5 100%);
+    --login-cloud-solid: #ffffff;
+    --login-cloud-shadow: 0 8px 5px rgba(0, 0, 0, 0.06);
+    --writer-background: #171717;
+    --writer-text-color: #ffffff;
+    --form-desc-color: #737373;
+    --login-switch-color: #171717;
+    --scrollbar-track-color: #8c8c8c;
     --base-border-color: rgba(136, 136, 136, 0.27);
-    --secondary-text-color: #888888;
+    --secondary-text-color: #737373;
     --message-block-color: rgba(0, 0, 0, 0);
 
-    /* 与主题无关 */
+    /* 与主题无关。--vt-* 由 header 里的明暗切换在点击时写成 inline style，
+       这里只给默认值，避免首次切换前动画取不到值 */
     --loading-hide-transition: all 200ms;
     --vt-x: 50%;
     --vt-y: 50%;
+    --vt-end-radius: 0px;
     --vt-duration: 520ms;
     --vt-easing: ease-out;
 }

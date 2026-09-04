@@ -44,3 +44,35 @@ html.theme-antfu .title {
 html.theme-antfu ::selection {
     background: rgba(136, 136, 136, 0.27);
 }
+
+/**
+ * 暗色下把 primary 实底组件的文字翻成深色。
+ *
+ * 起因：暗色主色提到了亮灰（原因见 antfu.js 里 primaryDark 的注释），
+ * 而 element-plus 的这些组件把文字写死成 `var(--el-color-white)`，
+ * 白字压在亮灰底上就看不见了。
+ *
+ * 为什么不全局改 --el-color-white：它还被 danger/success/warning
+ * 以及 switch 滑块共用，那些是饱和色底或深色底、确实要白。
+ * 所以只在「底色确实是 primary」的选择器上重定义，逐条对着
+ * element-plus 的 CSS 核实过，不用通配。
+ *
+ * 覆盖点选在变量的使用处之上：EP 是在组件根节点声明
+ * --el-xxx-text-color: var(--el-color-white)，此处在同一节点重定义
+ * --el-color-white，替换发生在取值时，所以能生效。
+ */
+html.theme-antfu.dark .el-button--primary,
+html.theme-antfu.dark .el-checkbox,
+html.theme-antfu.dark .el-checkbox-button,
+html.theme-antfu.dark .el-radio,
+html.theme-antfu.dark .el-radio-button,
+html.theme-antfu.dark .el-pagination.is-background,
+html.theme-antfu.dark .el-alert--primary.is-dark,
+html.theme-antfu.dark .el-tag--primary {
+    --el-color-white: #050505;
+}
+
+/* 这条 EP 写的是硬编码 #fff，变量覆盖不到，只能改 color 本身 */
+html.theme-antfu.dark .el-table-filter__list-item.is-active {
+    color: #050505;
+}

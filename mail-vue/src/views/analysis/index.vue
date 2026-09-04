@@ -369,7 +369,7 @@ function createSenderPie() {
         labelLine: {
           show: true
         },
-        color: ['#3CB2FF', '#13DEB9', '#FBBF24', '#FF7F50', '#BAE6FD', '#C084FC'] // 添加符合主题的配色
+        color: topic.value.series
       }
     ]
   }
@@ -619,7 +619,7 @@ function createEmailColumnChart() {
         },
         data: emailColumnData.receiveData,
         itemStyle: {
-          color: '#3CB2FF',
+          color: topic.value.series[0],
         }
       },
       {
@@ -634,7 +634,7 @@ function createEmailColumnChart() {
         },
         data: emailColumnData.sendData,
         itemStyle: {
-          color: '#13deb9',
+          color: topic.value.series[1],
         }
       }
     ]
@@ -664,13 +664,13 @@ function createSendGauge() {
         show: true,
         roundCap: true,
         itemStyle: {
-          color: '#3CB2FF'
+          color: topic.value.accent
         }
       },
       // 指针颜色（新增）
       pointer: {
         itemStyle: {
-          color: '#3CB2FF'
+          color: topic.value.accent
         }
       },
       axisLabel: {
@@ -709,7 +709,7 @@ function createSendGauge() {
         }
       }]
     }],
-    color: ['#3CB2FF']
+    color: [topic.value.accent]
   };
   sendGauge.setOption(option);
 }
