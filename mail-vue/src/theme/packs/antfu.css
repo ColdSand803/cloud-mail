@@ -1,0 +1,46 @@
+/**
+ * antfu 主题包的附加样式。
+ *
+ * 主题包除了给变量，还能带一份 CSS —— 用 pack.className 作用域，
+ * 这样能改变量表达不了的东西（圆角、滚动条尺寸、去阴影）。
+ * 这份文件在 theme/index.js 里静态 import，靠类名开关生效。
+ */
+
+html.theme-antfu {
+    /* antfu 的滚动条比 EP 默认更细 */
+    scrollbar-width: thin;
+}
+
+html.theme-antfu ::-webkit-scrollbar {
+    width: 6px;
+}
+
+html.theme-antfu ::-webkit-scrollbar:horizontal {
+    height: 6px;
+}
+
+html.theme-antfu ::-webkit-scrollbar-track,
+html.theme-antfu ::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+html.theme-antfu ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-track-color);
+    border-radius: 10px;
+}
+
+/* 圆角统一到 4px / 6px 两档 */
+html.theme-antfu {
+    --el-border-radius-base: 4px;
+    --el-border-radius-small: 4px;
+}
+
+/* 侧栏标题去掉渐变色块，改为与正文同底 + 描边 */
+html.theme-antfu .title {
+    border: 1px solid var(--el-border-color);
+}
+
+/* 选区背景用中性灰，明暗共用 */
+html.theme-antfu ::selection {
+    background: rgba(136, 136, 136, 0.27);
+}

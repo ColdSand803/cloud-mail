@@ -253,6 +253,7 @@ const en = {
     reqFailErrorMsg: 'Request failed. Try again later',
     message: 'Message',
     language: 'Language',
+    theme: 'Theme',
     totalUserAccount: '{msg}',
     sendBanned: 'Banned',
     sendInternal: 'Only internal',

@@ -10,23 +10,49 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <script>
-    const uiStoreStr =  localStorage.getItem('ui')
-    if (uiStoreStr) {
-      const uiStore =  JSON.parse(uiStoreStr)
-      const root = document.documentElement
-      root.setAttribute('class', uiStore.dark ? 'dark' : '');
-      const metaTag = document.getElementById('theme-color-meta');
-      const isMobile =  !window.matchMedia("(pointer: fine) and (hover: hover)").matches;
-      metaTag.setAttribute('content', uiStore.dark ? (isMobile ? '#141414' : '#000000') : (isMobile ? '#FFFFFF' : '#F1F1F1'));
-    }
+    // 预涂色：在 JS bundle 加载前把上次的主题刷上去，避免首屏闪白/闪黑。
+    // theme-vars 由 src/theme/index.js 每次 applyTheme 时写入。
+    (function () {
+      var root = document.documentElement
+      var isMobile = !window.matchMedia("(pointer: fine) and (hover: hover)").matches
+      var metaTag = document.getElementById('theme-color-meta')
+      var cached = null
+
+      try {
+        cached = JSON.parse(localStorage.getItem('theme-vars'))
+      } catch (e) {}
+
+      if (cached && cached.vars) {
+        for (var name in cached.vars) {
+          root.style.setProperty(name, cached.vars[name], 'important')
+        }
+        if (cached.dark) root.classList.add('dark')
+        if (cached.className) root.classList.add(cached.className)
+        if (metaTag && cached.meta) {
+          metaTag.setAttribute('content', isMobile ? cached.meta.mobile : cached.meta.desktop)
+        }
+        return
+      }
+
+      // 没有缓存（首次访问或清过存储）时退回只认 dark 开关
+      try {
+        var ui = JSON.parse(localStorage.getItem('ui'))
+        if (ui && ui.dark) {
+          root.classList.add('dark')
+          if (metaTag) metaTag.setAttribute('content', isMobile ? '#141414' : '#000000')
+        }
+      } catch (e) {}
+    })()
   </script>
 </head>
 <style>
+  /* 跟着主题包的底色走。预涂色脚本已把 --el-bg-color 刷上，
+     后面两个值只是脚本未执行时的兜底 */
   html {
-    background: #FFFFFF;
+    background: var(--el-bg-color, #FFFFFF);
   }
-  .dark {
-    background: #141414;
+  html.dark {
+    background: var(--el-bg-color, #141414);
   }
   #loading-first {
     position: fixed;

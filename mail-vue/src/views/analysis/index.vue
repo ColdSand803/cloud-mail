@@ -185,17 +185,8 @@ const emailColumnData = {
   daysData: []
 }
 
-const topic = computed(() => ({
-  color: uiStore.dark ? '#E5EAF3' : '#303133',
-  background: uiStore.dark ? '#141414' : '#FFFFFF',
-  borderColor: uiStore.dark ? '#141414' : '#FFFFFF',
-  scaleLineColor: uiStore.dark ? '#636466' : '#CDD0D6',
-  crossColor: uiStore.dark ? '#8D9095' : '#A8ABB2',
-  axisColor: uiStore.dark ? '#A3A6AD' : '#909399',
-  splitLineColor: uiStore.dark ? '#58585B' : '#D4D7DE',
-  gaugeSplitLine: uiStore.dark ? '#CFD3DC' : '#606266',
-  containerBackground: uiStore.dark ? '#6C6E72' : '#E6EBF8'
-}))
+// echarts 用 canvas 渲染，吃不到 CSS 变量，从主题包的 chart 段取色
+const topic = computed(() => uiStore.themeMode.chart)
 let daySendTotal = 0
 let leaveWidth = 0
 let senderPie = null
@@ -205,7 +196,9 @@ let sendGauge = null
 let first = true
 let boxKey = ref(0)
 let senderPieLeft = window.innerWidth < 500 ? `${window.innerWidth - 110}` : '72%'
-let analysisDark = uiStore.dark
+// 主题指纹：主题包 + 明暗，任一变化都要重绘
+const themeKey = () => `${uiStore.themeId}:${uiStore.dark}`
+let analysisTheme = themeKey()
 
 onMounted(() => {
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -262,9 +255,9 @@ onActivated(() => {
     widthChange()
   } else if (!senderPie) {
     widthChange()
-  } else if (analysisDark !== uiStore.dark) {
+  } else if (analysisTheme !== themeKey()) {
     initPicture()
-    analysisDark = uiStore.dark
+    analysisTheme = themeKey()
   }
 })
 
@@ -277,9 +270,9 @@ window.onresize = () => {
   widthChange()
 }
 
-watch(() => uiStore.dark, () => {
+watch(() => [uiStore.dark, uiStore.themeId], () => {
   if (route.name !== 'analysis') return
-  analysisDark = uiStore.dark
+  analysisTheme = themeKey()
   initPicture()
 })
 

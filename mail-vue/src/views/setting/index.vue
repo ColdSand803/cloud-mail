@@ -42,6 +42,23 @@
         <el-option label="English" value="en" @pointerdown.prevent.stop="changeLang('en')"/>
       </el-select>
     </div>
+    <div class="language">
+      <div class="title">{{$t('theme')}}</div>
+      <el-select
+          :model-value="uiStore.themeId"
+          class="language-select"
+          placeholder="Select"
+          @change="changeTheme"
+      >
+        <el-option
+            v-for="pack in themePacks"
+            :key="pack.id"
+            :label="themeName(pack)"
+            :value="pack.id"
+            @pointerdown.prevent.stop="changeTheme(pack.id)"
+        />
+      </el-select>
+    </div>
     <div class="del-email" v-perm="'my:delete'">
       <div class="title">{{$t('deleteUser')}}</div>
       <div style="color: var(--regular-text-color);">
@@ -69,11 +86,15 @@ import {accountSetName} from "@/request/account.js";
 import {useAccountStore} from "@/store/account.js";
 import {useI18n} from "vue-i18n";
 import {useSettingStore} from "@/store/setting.js";
+import {useUiStore} from "@/store/ui.js";
+import {getPackList} from "@/theme/index.js";
 
 const { t } = useI18n()
 const accountStore = useAccountStore()
 const settingStore = useSettingStore()
+const uiStore = useUiStore()
 const userStore = useUserStore();
+const themePacks = getPackList()
 const setPwdLoading = ref(false)
 const setNameShow = ref(false)
 const accountName = ref(null)
@@ -82,6 +103,15 @@ const langSelect = ref(settingStore.lang)
 defineOptions({
   name: 'setting'
 })
+
+// 主题包的名字自带多语言，跟着界面语言走
+function themeName(pack) {
+  return pack.name[settingStore.lang] || pack.name.en
+}
+
+function changeTheme(themeId) {
+  uiStore.setTheme(themeId)
+}
 
 function showSetName() {
   accountName.value = userStore.user.name

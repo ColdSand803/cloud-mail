@@ -197,7 +197,7 @@ function openDark(e) {
   const root = document.documentElement
 
   if (!document.startViewTransition) {
-    switchDark(nextIsDark, root);
+    switchDark(nextIsDark);
     return
   }
 
@@ -215,7 +215,7 @@ function openDark(e) {
   root.style.setProperty('--vt-end-radius', `${endRadius + 10}px`)
 
   const transition = document.startViewTransition(() => {
-    switchDark(nextIsDark, root);
+    switchDark(nextIsDark);
   })
 
   transition.finished.finally(() => {
@@ -224,12 +224,9 @@ function openDark(e) {
   })
 }
 
-function switchDark(nextIsDark, root) {
-  root.setAttribute('class', nextIsDark ? 'dark' : '')
-  const metaTag = document.getElementById('theme-color-meta');
-  const isMobile =  !window.matchMedia("(pointer: fine) and (hover: hover)").matches;
-  metaTag.setAttribute('content', nextIsDark ? (isMobile ? '#141414' : '#000000') : (isMobile ? '#FFFFFF' : '#F1F1F1'));
-  uiStore.dark = nextIsDark
+function switchDark(nextIsDark) {
+  // 类名、变量、theme-color 都交给主题引擎，这里只管状态
+  uiStore.setDark(nextIsDark)
 }
 
 function openSend() {

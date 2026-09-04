@@ -105,14 +105,15 @@ button, input, select, textarea {
     max-height: 220px !important;
 }
 
+/*
+ * 配色变量已迁移到主题包（src/theme/packs/），由 theme/index.js 在启动时
+ * 写成 documentElement 的 inline style。这里只留与主题无关的结构性变量。
+ *
+ * 下面这份 :root 是兜底值：主题包正常生效时会被 inline style 盖掉，
+ * 只在 JS 未执行（如首屏预涂色缓存缺失）时短暂生效，取默认主题的浅色值。
+ */
 :root {
     --el-color-primary: #1890ff;
-    --el-color-primary-dark-2: #1064c0;
-    --el-color-primary-light-3: #4dabff;
-    --el-color-primary-light-5: #69c0ff;
-    --el-color-primary-light-7: #91d5ff;
-    --el-color-primary-light-9: #e6f7ff;
-
     --extra-light-fill: #FAFCFF;
     --light-ill: #F5F7FA;
     --light-border: #E4E7ED;
@@ -124,6 +125,12 @@ button, input, select, textarea {
     --regular-text-color: #585d69;
     --light-border-color: #e7e9ec;
     --aside-right-border: 3px 0 5px rgba(0, 21, 41, .35);
+    --aside-text-color: #ffffff;
+    --aside-active-text-color: #ffffff;
+    --aside-item-hover: rgba(255, 255, 255, 0.08);
+    --aside-item-active: rgba(255, 255, 255, 0.08);
+    --aside-title-background: linear-gradient(135deg, #1890ff, #3a80dd);
+    --aside-title-color: #ffffff;
     --choose-account-background: var(--el-color-primary-light-8);
     --el-text-color-regular: var(--el-text-color-primary);
     --email-scroll-content-color: rgba(25, 41, 59, 0.4);
@@ -135,36 +142,13 @@ button, input, select, textarea {
     --base-border-color: #DCDFE6;
     --secondary-text-color: #909399;
     --message-block-color: rgba(0, 0, 0, 0);
+
+    /* 与主题无关 */
     --loading-hide-transition: all 200ms;
     --vt-x: 50%;
     --vt-y: 50%;
     --vt-duration: 520ms;
     --vt-easing: ease-out;
-}
-
-.dark {
-    --extra-light-fill: #191919;
-    --light-ill: #262727;
-    --light-border: #414243;
-    --aside-backgound: #141414;
-    --header-actions-border: inset 0 -1px 0 0 var(--el-border-color-lighter);
-    --loadding-background: rgba(0, 0, 0, 0.3);
-    --dark-border: #636466;
-    --base-fill: #303030;
-    --regular-text-color: #bfbdbc;
-    --light-border-color: #414243;
-    --aside-right-border: 3px 0 5px #0A0A0A;
-    --choose-account-background: #39393A;
-    --email-scroll-content-color: rgba(255, 255, 255, 0.3);
-    --email-hover-background: #1D1E1F;
-    --login-border: none;
-    --form-desc-color: #8D9095;
-    --login-switch-color: rgb(102, 177, 255);
-    --scrollbar-track-color: #8D9095;
-    --base-border-color: #4C4D4F;
-    --secondary-text-color: #A3A6AD;
-    --message-block-color: rgba(30, 30, 30, 0.2);
-    --el-border-color: #414243 !important;
 }
 
 .el-input {

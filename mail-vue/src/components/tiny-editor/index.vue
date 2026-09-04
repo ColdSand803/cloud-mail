@@ -53,7 +53,8 @@ watch(() => props.defValue, (newValue) => {
   }
 });
 
-watch(() => [uiStore.dark, settingStore.lang], () => {
+// 换主题包也要重建编辑器，skin 和 content_css 都跟着主题走
+watch(() => [uiStore.dark, uiStore.themeId, settingStore.lang], () => {
   destroyEditor();
   initEditor();
 });
@@ -94,11 +95,12 @@ function initEditor() {
     //relative_urls: false,  //阻止 img标签域名和网站域名相同 自动把链接转换相对路径
     //remove_script_host: false, // 阻止删除 URL 中的域名
     forced_root_block: 'div',
-    skin: `${uiStore.dark ? 'oxide-dark' : 'oxide'}`,
-    content_css: `/tinymce/css/index.css,${uiStore.dark ? 'dark' : 'default'}`,
+    // tinymce 在 iframe 里，拿不到外层 CSS 变量，只能从主题包显式取值
+    skin: uiStore.themeMode.editor.skin,
+    content_css: `/tinymce/css/index.css,${uiStore.themeMode.editor.contentCss}`,
     content_style: `:root {
-         --scrollbar-track-color: ${uiStore.dark ? '#141414' : '#FFFFFF'};
-         --scrollbar-thumb-color: ${uiStore.dark ? '#8D9095' : '#A8ABB2'};
+         --scrollbar-track-color: ${uiStore.themeMode.editor.scrollbarTrack};
+         --scrollbar-thumb-color: ${uiStore.themeMode.editor.scrollbarThumb};
     }`,
     plugins: 'link image advlist lists  emoticons fullscreen  table preview code',
     toolbar: 'bold emoticons forecolor backcolor italic fontsize | alignleft aligncenter alignright alignjustify | outdent indent |  bullist numlist | link image  | table code preview fullscreen',

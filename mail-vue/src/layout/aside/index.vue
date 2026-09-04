@@ -5,7 +5,8 @@
         <Icon icon="mdi:email-outline" width="24" height="24" />
         <div>{{settingStore.settings.title}}</div>
       </div>
-      <el-menu :collapse="false" text-color="#fff" active-text-color="#fff" style="margin-top: 10px">
+      <el-menu :collapse="false" text-color="var(--aside-text-color)"
+               active-text-color="var(--aside-active-text-color)" style="margin-top: 10px">
         <el-menu-item @click="router.push({name: 'email'})" index="email"
                       :class="route.meta.name === 'email' ? 'choose-item' : ''">
           <Icon icon="hugeicons:mailbox-01" width="20" height="20" />
@@ -93,8 +94,8 @@ const route = useRoute();
   align-items: center;
   justify-content: center;
   gap: 5px;
-  color: #ffffff;
-  background: linear-gradient(135deg, #1890ff, #3a80dd);
+  color: var(--aside-title-color);
+  background: var(--aside-title-background);
   transition: all 0.3s ease;
   max-width: 240px;
   padding: 0 10px;
@@ -115,7 +116,7 @@ const route = useRoute();
     position: absolute;
     font-size: 12px;
     right: 8px;
-    color: #ffffff;
+    color: var(--aside-title-color);
   }
 
 }
@@ -124,7 +125,7 @@ const route = useRoute();
 .manage-title {
   margin-top: 10px;
   padding-left: 20px;
-  color: #fff;
+  color: var(--aside-text-color);
 }
 
 .el-menu-item {
@@ -136,13 +137,13 @@ const route = useRoute();
 
 .choose-item {
   font-weight: bold;
-  background: rgba(255, 255, 255, 0.08) !important;
+  background: var(--aside-item-active) !important;
   backdrop-filter: blur(4px);
 }
 
 @media (hover: hover) {
   .el-menu-item:hover {
-    background: rgba(255, 255, 255, 0.08) !important;
+    background: var(--aside-item-hover) !important;
   }
 }
 
@@ -170,7 +171,7 @@ const route = useRoute();
 
 :deep(.el-divider__text) {
   background: var(--aside-backgound);
-  color: #FFFFFF;
+  color: var(--aside-text-color);
 }
 
 .scroll {
