@@ -15,15 +15,24 @@ import defaultPack from './packs/default.js'
 import antfuPack from './packs/antfu.js'
 import './packs/antfu.css'
 
-export const packs = [defaultPack, antfuPack]
+/**
+ * 数组第一个即全局默认主题，也是选择器里的第一项。
+ * 换默认只需调整顺序，其余地方都从这里派生。
+ *
+ * 注意：改默认后，style.css 的兜底 :root 和 index.html 的兜底底色
+ * 也要跟着换成新默认包的浅色/暗色值，否则首屏会闪一下旧配色。
+ */
+export const packs = [antfuPack, defaultPack]
 
-export const DEFAULT_THEME_ID = defaultPack.id
+const fallbackPack = packs[0]
+
+export const DEFAULT_THEME_ID = fallbackPack.id
 
 // 预涂色脚本要用的缓存 key，见 index.html
 const CACHE_KEY = 'theme-vars'
 
 export function getPack(themeId) {
-    return packs.find(p => p.id === themeId) || defaultPack
+    return packs.find(p => p.id === themeId) || fallbackPack
 }
 
 export function hasPack(themeId) {

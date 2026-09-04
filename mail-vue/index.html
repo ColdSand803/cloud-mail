@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="theme-color" content="#F1F1F1" id="theme-color-meta">
+  <!-- 初始值取默认主题包的浅色底，脚本随后按实际主题覆盖 -->
+  <meta name="theme-color" content="#FFFFFF" id="theme-color-meta">
   <meta name="description" content="Cloud Mail 是一个 Serverless 响应式邮箱服务，支持邮件发送，可部署到 Cloudflare 平台，降低服务器成本。Cloud Mail is a serverless responsive email service that supports email sending and can be deployed on Cloudflare to reduce server costs.">
   <title>Cloud Mail</title>
   <link rel="icon" href="/public/mail.png" type="image/png">
@@ -34,12 +35,13 @@
         return
       }
 
-      // 没有缓存（首次访问或清过存储）时退回只认 dark 开关
+      // 没有缓存（首次访问或清过存储）时退回只认 dark 开关，
+      // 颜色取默认主题包的暗色值
       try {
         var ui = JSON.parse(localStorage.getItem('ui'))
         if (ui && ui.dark) {
           root.classList.add('dark')
-          if (metaTag) metaTag.setAttribute('content', isMobile ? '#141414' : '#000000')
+          if (metaTag) metaTag.setAttribute('content', '#050505')
         }
       } catch (e) {}
     })()
@@ -47,12 +49,12 @@
 </head>
 <style>
   /* 跟着主题包的底色走。预涂色脚本已把 --el-bg-color 刷上，
-     后面两个值只是脚本未执行时的兜底 */
+     后面两个 fallback 只在脚本未执行时生效，取默认主题包的底色 */
   html {
     background: var(--el-bg-color, #FFFFFF);
   }
   html.dark {
-    background: var(--el-bg-color, #141414);
+    background: var(--el-bg-color, #050505);
   }
   #loading-first {
     position: fixed;

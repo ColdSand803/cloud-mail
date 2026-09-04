@@ -283,10 +283,21 @@ shortcuts: [
 theme/
   index.js            引擎：applyTheme / initTheme / getPackList
   packs/
-    default.js        经典蓝（= 改造前的配色，逐值照搬）
-    antfu.js          极简（本文档的配色取向）
+    antfu.js          极简（本文档的配色取向）← 全局默认
     antfu.css         该包的附加样式，用 className 作用域
+    default.js        经典蓝（= 改造前的配色，逐值照搬）
 ```
+
+**全局默认是「极简」（antfu）。** 默认由 `theme/index.js` 里 `packs` 数组的
+第一项决定，`DEFAULT_THEME_ID` 和 `getPack` 的兜底都从它派生。换默认只需调整
+数组顺序，但要同步这两处兜底值，否则首屏会闪一下旧配色：
+
+- `style.css` 的兜底 `:root` —— 取新默认包的**浅色**段
+- `index.html` 的 `html.dark` fallback 底色、静态 `theme-color` meta、
+  预涂色脚本无缓存分支里的暗色值
+
+已经显式选过其他主题的用户不受影响 —— `initTheme` 读到存量 `themeId` 就照它走，
+只有没存过选择的用户（含主题功能上线前的老用户）才会落到新默认。
 
 主题包是一个普通 JS 对象，`light` / `dark` 两段结构相同：
 
@@ -307,8 +318,8 @@ theme/
 
 ### 加一个主题包
 
-1. 复制 `packs/default.js`，改 `id` / `name` 和配色
-2. 在 `theme/index.js` 的 `packs` 数组里 import 进来
+1. 复制 `packs/default.js`（字段最全，适合当模板），改 `id` / `name` 和配色
+2. 在 `theme/index.js` 的 `packs` 数组里 import 进来 —— 放第一位即成为默认
 3. 变量表达不了的东西（圆角、滚动条尺寸、去阴影）另附一份 CSS，
    给包加 `className`，在 `theme/index.js` 里静态 import 那个 CSS
 
@@ -357,13 +368,13 @@ header 的日月按钮只切 `dark`，设置页的选择器只切 `themeId`，�
 | 文件 | 角色 |
 |---|---|
 | `src/theme/index.js` | 引擎。`applyTheme` / `initTheme` / `getPackList` / `hasPack` |
-| `src/theme/packs/default.js` | 经典蓝包，逐值照搬改造前配色 |
-| `src/theme/packs/antfu.js` | 极简包 |
+| `src/theme/packs/default.js` | 经典蓝包，逐值照搬改造前配色（非默认） |
+| `src/theme/packs/antfu.js` | 极简包，**全局默认**（`packs` 数组第一项） |
 | `src/theme/packs/antfu.css` | 极简包的附加样式，`html.theme-antfu` 作用域 |
 | `src/store/ui.js` | `themeId` 状态、`setTheme` / `setDark`、`themeMode` getter、`afterHydrate` 自愈 |
 | `src/main.js` | `initTheme()`，必须在 `app.mount` 前、`init()` 网络请求前 |
 | `index.html` | 预涂色脚本读 `theme-vars`；遮罩底色改为 `var(--el-bg-color, …)` |
-| `src/style.css` | 颜色变量已迁出，只留兜底 `:root` 与结构性样式 |
+| `src/style.css` | 颜色变量已迁出，只留兜底 `:root`（须与默认包浅色段一致）与结构性样式 |
 | `src/layout/header/index.vue` | 日月按钮改走 `uiStore.setDark`，View Transition 不变 |
 | `src/layout/aside/index.vue` | 写死的白字/蓝渐变提成 `--aside-*` 变量 |
 | `src/views/setting/index.vue` | 主题选择器 |
